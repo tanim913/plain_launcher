@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="lock_service_desc">Lets Plain Launcher lock the screen when you double-tap the home screen. It does not read or record anything on your screen.</string>
+</resources>

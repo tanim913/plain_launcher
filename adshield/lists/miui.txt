@@ -1,0 +1,30 @@
+# MIUI ad / bloat package list. Format:  <tier> <package>   # reason
+#   ads    = ad delivery, analytics and "recommendation" services. Disabled by `apply`.
+#   bloat  = preinstalled apps with ads or recommendations. Only with `apply --bloat`.
+# Verified against: Redmi Note 7 (lavender), MIUI 12.5 Global V12.5.3.0.QFGMIXM, Android 10.
+# Packages that are not installed on the phone are skipped. protected.txt always wins.
+
+ads    com.miui.msa.global                 # MIUI System Ads: the source of most ads (installer, themes, cleaner, Security)
+ads    com.miui.analytics                  # usage analytics / ad targeting
+ads    com.miui.daemon                     # analytics daemon
+ads    com.xiaomi.mipicks                  # GetApps: app recommendations, install nags
+ads    com.xiaomi.discover                 # app recommendations
+ads    com.miui.hybrid                     # Quick Apps (promoted instant apps)
+ads    com.miui.hybrid.accessory           # Quick Apps helper
+ads    com.miui.yellowpage                 # Yellow Pages: caller-ID ads
+ads    com.mi.android.globalminusscreen    # App Vault: the swipe-right page full of promoted cards
+ads    com.facebook.appmanager             # Facebook preinstall helpers
+ads    com.facebook.services
+ads    com.facebook.system
+ads    com.miui.bugreport                  # feedback / bug report
+ads    com.miui.miservice                  # Services & feedback
+ads    com.miui.android.fashiongallery     # Wallpaper Carousel: lock-screen wallpaper ads
+ads    com.xiaomi.glgm                     # Games hub (already disabled on this phone)
+ads    com.micredit.in                     # Mi Credit loan promotions
+ads    com.mipay.wallet.in                 # Mi Pay promotions
+
+bloat  com.mi.globalbrowser                # Mi Browser: news feed and ads
+bloat  com.miui.player                     # Mi Music: ads
+bloat  com.miui.videoplayer                # Mi Video: ads
+bloat  com.xiaomi.midrop                   # ShareMe: ads
+bloat  com.miui.cleaner                    # Cleaner: "recommended" ads

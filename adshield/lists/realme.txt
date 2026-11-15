@@ -1,0 +1,17 @@
+# Realme UI / ColorOS ad / bloat package list. Format:  <tier> <package>   # reason
+# UNTESTED on a real Realme phone. The names come from public ColorOS debloat lists, so
+# always run the dry-run first and read the table. Packages that are not installed are skipped.
+# protected.txt always wins.
+
+ads    com.opos.ads                        # ad SDK service
+ads    com.heytap.pictorial                # Pictorial: lock-screen wallpaper ads
+ads    com.nearme.statistics.rom           # analytics
+ads    com.oppo.quicksearchbox             # search bar with promoted results
+ads    com.nearme.instant.platform         # instant apps platform
+
+bloat  com.heytap.market                   # App Market: recommendations
+bloat  com.oppo.market                     # App Market (older ColorOS)
+bloat  com.heytap.browser                  # Browser: news feed and ads
+bloat  com.heytap.music                    # Music: ads
+bloat  com.nearme.themespace               # Theme Store: ads
+bloat  com.heytap.themestore               # Theme Store (newer ColorOS)

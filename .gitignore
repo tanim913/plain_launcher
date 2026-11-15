@@ -1,0 +1,21 @@
+.gradle/
+build/
+local.properties
+*.iml
+.idea/
+adshield/state/
+.kotlin/
+# Impeccable runtime files (briefs and PRODUCT.md are committed)
+.impeccable/questions/
+.impeccable/mocks/
+.impeccable/review/
+.impeccable/build/
+.impeccable/config.local.json
+# raw device captures (the published, resized shots are committed)
+docs/shots/*-raw.png
+docs/shots/.seen-*
+# release signing: never commit
+keystore.properties
+*.jks
+*.keystore
+dist/

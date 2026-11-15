@@ -1,0 +1,36 @@
+# Packages that Ad Shield refuses to touch, even if they are listed elsewhere.
+# One entry per line. A trailing * means "starts with". Comments start with #.
+
+# Android core
+android
+com.android.*
+com.google.android.gms
+com.google.android.gsf
+com.google.android.packageinstaller
+com.google.android.permissioncontroller
+
+# MIUI: Recents, permissions, installer and system UI depend on these
+com.miui.home
+com.miui.system
+com.miui.core
+com.miui.rom
+com.miui.securitycenter
+com.miui.securitycore
+com.miui.securityadd
+com.miui.guardprovider
+com.miui.powerkeeper
+com.miui.packageinstaller
+com.miui.global.packageinstaller
+com.lbe.security.miui
+com.xiaomi.xmsf
+com.xiaomi.account
+com.xiaomi.finddevice
+com.xiaomi.joyose
+
+# Realme UI / ColorOS
+com.oppo.launcher
+com.coloros.safecenter
+com.coloros.securitypermission
+com.coloros.phonemanager
+com.heytap.mcs
+com.oplus.*

@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plain Launcher: ad-free stock home screen for Redmi and MIUI</title>
+<meta name="description" content="Plain Launcher replaces MIUI's ad-filled home screen with a clean, stock-Android one, and keeps your step history, weather and real alarm. Free and open source.">
+<meta name="theme-color" content="#1B1D20">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<meta property="og:title" content="Plain Launcher: ads gone, nothing lost">
+<meta property="og:description" content="An ad-free, stock-Android home screen for Redmi and other Xiaomi phones. Free and open source.">
+<meta property="og:image" content="https://tanim913.github.io/plain_launcher/shots/home.webp">
+<style>
+@font-face {
+  font-family: "Archivo";
+  src: url("fonts/Archivo-var-latin.woff2") format("woff2");
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-display: swap;
+}
+
+:root {
+  --display: "Archivo", system-ui, sans-serif;
+  --ground: #E7E8EA;
+  --paper: #FBFBFC;
+  --paper-sunk: #F2F3F5;
+  --rule: #CDD0D4;
+  --graphite: #1B1D20;
+  --graphite-2: #2A2D31;
+  --silver: #B9BEC4;
+  --ink: #1B1D20;
+  --muted: #4A4F56;
+  --green: #15703F;
+  --green-deep: #0F5A32;
+  --green-wash: #E3F0E8;
+  --measure: 68ch;
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+  interpolate-size: allow-keywords;
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection { background: var(--green); color: #fff; }
+:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; border-radius: 2px; }
+html { scrollbar-color: #9DA3AA var(--ground); }
+a { color: var(--green); text-decoration-thickness: 1px; text-underline-offset: .18em; }
+a:hover { color: var(--green-deep); text-decoration-thickness: 2px; }
+code, .mono { font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; font-size: .92em; }
+img { max-width: 100%; display: block; }
+.icon { width: 1.15em; height: 1.15em; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ---- thread bar -------------------------------------------------------------------- */
+.bar {
+  position: sticky; top: 0; z-index: 10;
+  background: var(--graphite); color: var(--silver);
+  border-bottom: 1px solid #000;
+}
+.bar-in {
+  max-width: 1200px; margin: 0 auto; padding: 0 24px;
+  height: 60px; display: flex; align-items: center; gap: 28px;
+}
+.brand, .title, .post h2, .post h3, .btn, .badge, .jumps a, .steps li::before, .file .name, .shots-label, .tags li {
+  font-family: var(--display);
+}
+.brand { display: flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; font-weight: 750; font-stretch: 108%; letter-spacing: -.01em; white-space: nowrap; }
+.brand img { width: 30px; height: 30px; border-radius: 8px; }
+.brand:hover { color: #fff; text-decoration: none; }
+.path { font-size: .85rem; color: #8E949B; white-space: nowrap; }
+.path a { color: #C9CDD2; text-decoration: none; }
+.path a:hover { color: #fff; }
+.jumps { margin-left: auto; display: flex; gap: 4px; }
+.jumps a {
+  color: var(--silver); text-decoration: none; font-size: .9rem; font-weight: 550;
+  padding: 7px 11px; border-radius: 4px; white-space: nowrap;
+}
+.jumps a:hover { background: var(--graphite-2); color: #fff; }
+.jumps .dl { background: var(--green); color: #fff; font-weight: 700; }
+.jumps .dl:hover { background: var(--green-deep); }
+
+/* ---- thread head -------------------------------------------------------------------- */
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.head { padding: 20px 0 14px; }
+.title {
+  margin: 0; font-weight: 820; font-stretch: 96%;
+  font-size: clamp(1.55rem, 2.6vw, 2.25rem); line-height: 1.14; letter-spacing: -.02em;
+  text-wrap: balance; max-width: 46ch;
+}
+.title .pre, .title .nb { white-space: nowrap; }
+.title .pre { color: var(--muted); font-weight: 700; }
+.tags { list-style: none; margin: 16px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.tags li {
+  font-size: .82rem; font-weight: 600; color: var(--graphite);
+  background: var(--paper); border: 1px solid var(--rule); border-radius: 3px; padding: 3px 9px;
+}
+.tags li.v { background: var(--graphite); color: #fff; border-color: var(--graphite); }
+.meta { margin-top: 12px; font-size: .88rem; color: var(--muted); }
+
+/* ---- posts -------------------------------------------------------------------------- */
+.post {
+  display: grid; grid-template-columns: 196px minmax(0, 1fr);
+  background: var(--paper); border: 1px solid var(--rule); border-radius: 4px;
+  margin: 0 0 22px;
+  box-shadow: 0 1px 2px rgba(27, 29, 32, .05), 0 6px 18px -12px rgba(27, 29, 32, .25);
+}
+.author {
+  background: var(--paper-sunk); border-right: 1px solid var(--rule);
+  padding: 24px 20px; font-size: .88rem; color: var(--muted);
+}
+.author img { width: 84px; height: 84px; border-radius: 20px; margin-bottom: 12px; }
+.author b { display: block; color: var(--ink); font-size: 1rem; }
+.badge {
+  display: inline-block; margin-top: 6px; font-size: .72rem; font-weight: 750; letter-spacing: .04em;
+  background: var(--graphite); color: #fff; padding: 2px 7px; border-radius: 3px;
+}
+.post-body { padding: 16px 40px 34px; min-width: 0; }
+.post-top {
+  display: flex; justify-content: space-between; gap: 16px;
+  font-size: .82rem; color: var(--muted); padding-bottom: 10px; margin-bottom: 16px;
+  border-bottom: 1px solid var(--rule);
+}
+.post-top a { color: var(--muted); text-decoration: none; font-weight: 650; }
+.post-top a:hover { color: var(--ink); }
+
+.post h2 {
+  margin: 0 0 14px; font-weight: 800; font-stretch: 100%;
+  font-size: clamp(1.45rem, 2.2vw, 1.9rem); line-height: 1.15; letter-spacing: -.02em; text-wrap: balance;
+}
+.post h3 { margin: 38px 0 12px; font-size: 1.35rem; font-weight: 780; letter-spacing: -.01em; }
+.post p { margin: 0 0 14px; max-width: var(--measure); }
+.lead { font-size: 1.16rem; color: var(--ink); }
+.lead.after-shots { margin-top: 30px; }
+
+/* hook */
+.post .sub-hook { font-size: 1.12rem; margin: -8px 0 0; color: var(--muted); text-wrap: pretty; }
+.post .hook {
+  margin: 0 0 16px; font-weight: 880; font-stretch: 112%;
+  font-size: clamp(3rem, 6vw, 5rem); line-height: .9; letter-spacing: -.035em;
+}
+.hook span { display: block; color: var(--green); }
+
+/* attachment tray: the primary action */
+.attach {
+  margin: 18px 0 8px; border: 1.5px solid var(--green); border-radius: 4px; background: #fff;
+  display: flex; align-items: center; gap: 18px; padding: 16px 18px; max-width: 720px;
+}
+.file-glyph { width: 46px; height: 54px; flex: none; color: var(--green); }
+.file { min-width: 0; }
+.file .name { font-weight: 700; font-size: 1.02rem; overflow-wrap: anywhere; font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; }
+.file .sub { font-size: .86rem; color: var(--muted); }
+.btn {
+  margin-left: auto; display: inline-flex; align-items: center; gap: 10px; flex: none;
+  background: var(--green); color: #fff; text-decoration: none; border-radius: 4px;
+  font-weight: 750; font-size: 1.15rem; padding: 13px 22px;
+  transition: background-color .2s var(--ease-out), transform .2s var(--ease-out);
+}
+.btn:hover { background: var(--green-deep); color: #fff; text-decoration: none; }
+.btn:active { transform: translateY(1px); }
+.attach-note { font-size: .86rem; color: var(--muted); margin: 0 0 4px; }
+.attach-note.after { margin-top: 14px; }
+
+/* screenshots: attached images; focus one, dim the rest */
+.shots-label { margin: 18px 0 8px; font-size: .86rem; font-weight: 700; color: var(--muted); }
+.shots { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; max-width: 470px; margin: 0; padding: 0; list-style: none; }
+.shots a { display: block; text-decoration: none; color: var(--muted); transition: opacity .25s var(--ease-out); }
+.shots img {
+  width: 100%; height: auto; border-radius: 10px;
+  outline: 4px solid var(--graphite); outline-offset: -1px; background: var(--graphite);
+}
+.shots figcaption { font-size: .82rem; margin-top: 5px; line-height: 1.3; }
+@media (min-width: 981px) {
+  /* wide screens: keep only the "what stays" half, so the attachments still fit the first viewport */
+  .post .sub-hook .sh-long { display: none; }
+}
+.shots:has(a:hover, a:focus-visible) a:not(:hover):not(:focus-visible) { opacity: .4; }
+
+/* lists */
+.ticks { list-style: none; padding: 0; margin: 0 0 6px; max-width: var(--measure); }
+.ticks li { display: flex; gap: 11px; padding: 7px 0; border-bottom: 1px solid #E4E6E9; }
+.ticks li:last-child { border-bottom: 0; }
+.ticks .icon { color: var(--green); margin-top: .25em; stroke-width: 2.6; }
+.ticks.gone .icon { color: var(--muted); }
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 0 40px; max-width: 900px; }
+
+/* header demo: state comparison */
+.demo {
+  margin: 18px 0 8px; max-width: 720px; background: var(--graphite); color: #fff;
+  border-radius: 6px; padding: 26px 28px 22px;
+}
+.demo .d1 { font-size: 1.9rem; font-weight: 500; letter-spacing: -.01em; display: flex; align-items: center; gap: 14px; }
+.demo .d2 { font-size: 1.05rem; color: #D7DADE; margin-top: 4px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.demo .d2 .icon { width: 1.05em; height: 1.05em; }
+.demo .alarm { display: inline-flex; align-items: center; gap: 7px; }
+.demo .cap { margin-top: 16px; padding-top: 12px; border-top: 1px solid #3A3D42; font-size: .86rem; color: #AEB3B9; }
+.seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; margin: 6px 0 0; }
+.seg button {
+  font: inherit; font-size: .88rem; font-weight: 650; padding: 7px 13px; border: 0; cursor: pointer;
+  background: var(--paper); color: var(--muted);
+}
+.seg button + button { border-left: 1px solid var(--rule); }
+.seg button[aria-pressed="true"] { background: var(--graphite); color: #fff; }
+
+/* gesture diagram: one geometry */
+.gestures { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 34px; align-items: center; max-width: 900px; margin-top: 8px; }
+.phone-svg { width: 100%; height: auto; color: var(--graphite); }
+.phone-svg .arrow { stroke: var(--green); stroke-width: 3.5; fill: none; stroke-linecap: round; stroke-linejoin: round; transition: opacity .25s var(--ease-out); }
+.phone-svg .tap { fill: var(--green); transition: opacity .25s var(--ease-out); }
+.g-list { list-style: none; margin: 0; padding: 0; }
+.g-list li { padding: 10px 0; border-bottom: 1px solid #E4E6E9; transition: opacity .25s var(--ease-out); }
+.g-list li:last-child { border-bottom: 0; }
+.g-list b { display: block; font-size: 1.02rem; }
+.g-list span { color: var(--muted); font-size: .95rem; }
+.gestures[data-focus] .g-list li:not(.on) { opacity: .38; }
+.gestures[data-focus] .phone-svg [data-g]:not(.on) { opacity: .15; }
+.gestures .g-list li { cursor: default; }
+@media (prefers-reduced-motion: no-preference) {
+  .phone-svg .arrow { stroke-dasharray: 220; stroke-dashoffset: 220; }
+  .gestures.drawn .phone-svg .arrow { stroke-dashoffset: 0; transition: stroke-dashoffset .9s var(--ease-out), opacity .25s var(--ease-out); }
+  .gestures.drawn .phone-svg .arrow:nth-of-type(2) { transition-delay: .15s, 0s; }
+  .gestures.drawn .phone-svg .arrow:nth-of-type(3) { transition-delay: .3s, 0s; }
+  .gestures.drawn .phone-svg .arrow:nth-of-type(4) { transition-delay: .45s, 0s; }
+}
+.no-js .phone-svg .arrow { stroke-dashoffset: 0; }
+
+/* code */
+pre {
+  margin: 10px 0 16px; padding: 14px 16px; background: var(--graphite); color: #E6E8EB;
+  border-radius: 4px; overflow-x: auto; font-size: .9rem; line-height: 1.55; max-width: 760px;
+}
+pre .c { color: #8E949B; }
+
+/* install: sequence bands */
+.steps { list-style: none; counter-reset: s; margin: 6px 0 0; padding: 0; max-width: 820px; }
+.steps li {
+  counter-increment: s; display: grid; grid-template-columns: 52px 1fr; gap: 16px;
+  padding: 18px 0; border-top: 1px solid var(--rule);
+}
+.steps li:last-child { border-bottom: 1px solid var(--rule); }
+.steps li::before {
+  content: counter(s); font-weight: 880; font-stretch: 112%; font-size: 2.6rem; line-height: .9;
+  color: var(--green); font-variant-numeric: tabular-nums;
+}
+.steps b { display: block; font-size: 1.08rem; margin-bottom: 2px; }
+.steps p { margin: 0; color: var(--muted); }
+
+/* spoilers: fold flat, unfold on tap */
+details { border: 1px solid var(--rule); border-radius: 4px; background: #fff; margin: 0 0 10px; max-width: 820px; }
+summary {
+  list-style: none; cursor: pointer; padding: 13px 16px; font-weight: 700;
+  display: flex; align-items: center; gap: 12px;
+}
+summary::-webkit-details-marker { display: none; }
+summary .s-meta { font-weight: 500; color: var(--muted); font-size: .88rem; }
+summary .s-act {
+  margin-left: auto; font-size: .78rem; font-weight: 750; letter-spacing: .03em; color: var(--green);
+  border: 1px solid currentColor; border-radius: 3px; padding: 2px 8px;
+}
+summary .s-act::after { content: "Show"; }
+details[open] summary .s-act::after { content: "Hide"; }
+summary:hover { background: var(--paper-sunk); }
+.fold { padding: 4px 18px 16px; border-top: 1px solid var(--rule); }
+.fold ul { margin: 10px 0 0; padding-left: 20px; }
+.fold li { margin: 6px 0; max-width: var(--measure); }
+@supports selector(::details-content) {
+  @media (prefers-reduced-motion: no-preference) {
+    details::details-content { block-size: 0; overflow-y: clip; transition: block-size .45s var(--ease-out), content-visibility .45s allow-discrete; }
+    details[open]::details-content { block-size: auto; }
+  }
+}
+
+.with-shot { display: grid; grid-template-columns: minmax(0, 1fr) 230px; gap: 40px; align-items: start; max-width: 980px; }
+.side-shot { margin: 4px 0 0; }
+.side-shot img { width: 100%; height: auto; border-radius: 12px; outline: 4px solid var(--graphite); outline-offset: -1px; background: var(--graphite); }
+.side-shot figcaption { font-size: .82rem; color: var(--muted); margin-top: 8px; }
+.g-chip { display: flex; align-items: center; gap: 12px; }
+.g-chip svg { width: 30px; height: 50px; flex: none; }
+.callout { background: var(--green-wash); border: 1px solid #BFDCC9; border-radius: 4px; padding: 12px 16px; max-width: 760px; margin: 14px 0; }
+.callout p { margin: 0; }
+
+/* footer */
+.foot { padding: 10px 0 60px; font-size: .9rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 8px 22px; justify-content: space-between; }
+
+/* ---- responsive ------------------------------------------------------------------------ */
+@media (max-width: 980px) {
+  .path { display: none; }
+  .jumps a:not(.dl):not(.keep) { display: none; }
+  .shots { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 460px; }
+  .split { grid-template-columns: 1fr; }
+  .with-shot { grid-template-columns: 1fr; gap: 8px; }
+  .side-shot { max-width: 220px; }
+}
+@media (max-width: 720px) {
+  .bar-in { padding: 0 16px; gap: 14px; height: 56px; }
+  .wrap { padding: 0 12px; }
+  .head { padding: 16px 4px 12px; }
+  body { font-size: 1rem; }
+  .title { font-size: 1.5625rem; }
+  .post h3 { font-size: 1.25rem; }
+  .tags { margin-top: 10px; }
+  .tags li { white-space: nowrap; }
+  .m-hide { display: none; }
+  .meta { margin-top: 8px; }
+  .post-top { margin-bottom: 14px; padding-bottom: 10px; }
+  .attach { margin-top: 16px; padding: 12px 14px 14px; gap: 10px 12px; display: grid; grid-template-columns: 30px minmax(0, 1fr); }
+  .attach .btn { grid-column: 1 / -1; padding: 12px 18px; }
+  .file-glyph { width: 30px; height: 36px; }
+  .file .sub { font-size: .8rem; }
+  .post .sub-hook { font-size: 1.02rem; }
+  .post { grid-template-columns: 1fr; }
+  .author {
+    border-right: 0; border-bottom: 1px solid var(--rule); padding: 12px 16px;
+    display: grid; grid-template-columns: 40px 1fr; column-gap: 12px; align-items: center;
+  }
+  .author img { width: 40px; height: 40px; border-radius: 10px; margin: 0; grid-row: span 2; }
+  .author .badge { margin: 0; justify-self: start; }
+  .author .a-more { display: none; }
+  .post-body { padding: 18px 16px 24px; }
+  .attach { flex-wrap: wrap; }
+  .btn { margin-left: 0; width: 100%; justify-content: center; }
+  .gestures { grid-template-columns: 1fr; gap: 12px; }
+  .phone-svg { max-width: 190px; margin: 0 auto; }
+  .demo { padding: 20px 18px 16px; }
+  .demo .d1 { font-size: 1.5rem; }
+  summary .s-meta { display: none; }
+  .steps li { grid-template-columns: 40px 1fr; }
+  .steps li::before { font-size: 2.1rem; }
+}
+</style>
+</head>
+<body class="no-js">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="g-right" viewBox="40 30 140 230"><rect x="60" y="40" width="100" height="210" rx="16" fill="#FBFBFC" stroke="#1B1D20" stroke-width="5"/><path d="M72 140 H136 M124 128 L136 140 L124 152" fill="none" stroke="#15703F" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M4.5 12.5l5 5 10-11"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 4v12M6.5 10.5L12 16l5.5-5.5M5 20h14"/></symbol>
+  <symbol id="i-alarm" viewBox="0 0 24 24"><circle cx="12" cy="13" r="7.5"/><path d="M12 9.5V13l2.5 2M4.5 4.5l3 2.5M19.5 4.5l-3 2.5"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18.5h10a4 4 0 0 0 .6-7.95A5.5 5.5 0 0 0 7.1 9.6 4.5 4.5 0 0 0 7 18.5z"/></symbol>
+  <symbol id="i-steps" viewBox="0 0 24 24"><path d="M8 3.5c-1.8 0-2.8 2-2.8 4.5S6 13 8 13s2.6-2.6 2.6-5S9.8 3.5 8 3.5zM6.3 15.5l3.4.6-.4 2.6a1.7 1.7 0 0 1-3.4-.6zM16 7.5c1.8 0 2.8 2 2.8 4.5S18 17 16 17s-2.6-2.6-2.6-5 .8-4.5 2.6-4.5zM14.3 19.5l3.4-.6"/></symbol>
+</svg>
+
+<header class="bar">
+  <div class="bar-in">
+    <a class="brand" href="#top"><img src="icon.svg" alt="" width="30" height="30">Plain Launcher</a>
+    <span class="path"><a href="https://github.com/tanim913/plain_launcher">tanim913 / plain_launcher</a> › release thread</span>
+    <nav class="jumps" aria-label="Posts in this thread">
+      <a href="#post-1">#1 Launcher</a>
+      <a href="#post-2">#2 Steps</a>
+      <a href="#post-3">#3 Ad Shield</a>
+      <a href="#post-4" class="keep">Install</a>
+      <a class="dl" href="https://github.com/tanim913/plain_launcher/releases/latest">Download</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="top">
+  <div class="head">
+    <h1 class="title"><span class="pre">[LAUNCHER] [Android 8–16]</span> Plain Launcher: an <span class="nb">ad-free</span>, <span class="nb">stock-Android</span> home screen for Redmi and MIUI</h1>
+    <ul class="tags" aria-label="Thread tags">
+      <li class="v">v0.2.0</li>
+      <li class="m-hide">Xiaomi · Redmi · POCO</li>
+      <li>Tested: Redmi Note 7<span class="m-hide">, MIUI 12.5</span></li>
+      <li class="m-hide">Android 8.0 – 16</li>
+      <li class="m-hide">Open source · Apache-2.0</li>
+      <li>No root</li>
+    </ul>
+    <p class="meta">Started by tanim913 · 16 Nov 2026<span class="m-hide"> · Not affiliated with Xiaomi</span></p>
+  </div>
+
+  <!-- #1 -->
+  <article class="post" id="post-1" aria-labelledby="hook">
+    <aside class="author">
+      <img src="icon.svg" alt="" width="84" height="84">
+      <b>tanim913</b>
+      <span class="badge">OP · DEVELOPER</span>
+      <p class="a-more">Built Plain Launcher for his own Redmi Note 7.</p>
+    </aside>
+    <div class="post-body">
+      <div class="post-top"><span>Post #1</span><a href="#post-1">Link</a></div>
+
+      <h2 class="hook" id="hook">Ads gone.<span>Nothing lost.</span></h2>
+      <p class="sub-hook"><span class="sh-long">A clean, stock-Android home screen for Redmi. </span>Your steps, weather and real alarm stay.</p>
+
+      <div class="attach">
+        <svg class="file-glyph" viewBox="0 0 46 54" aria-hidden="true"><path d="M5 2h25l13 13v35a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M30 2v13h13" fill="none" stroke="currentColor" stroke-width="2.5"/><text x="23" y="41" text-anchor="middle" font-size="11" font-weight="800" fill="currentColor" font-family="Archivo, sans-serif">APK</text></svg>
+        <div class="file">
+          <div class="name mono">PlainLauncher-0.2.0.apk</div>
+          <div class="sub">471 KB · Android 8.0 or newer · free, no account</div>
+        </div>
+        <a class="btn" href="https://github.com/tanim913/plain_launcher/releases/latest"><svg class="icon" aria-hidden="true"><use href="#i-down"/></svg>Download</a>
+      </div>
+
+      <p class="shots-label">Attached images · real screenshots from a Redmi Note 7</p>
+      <ul class="shots">
+        <li><a href="shots/home.webp"><figure style="margin:0"><img src="shots/home.webp" alt="Plain Launcher home screen: date, weather, no alarm set, a dock of five apps and a search bar" loading="lazy" width="270" height="585"><figcaption>Home</figcaption></figure></a></li>
+        <li><a href="shots/drawer.webp"><figure style="margin:0"><img src="shots/drawer.webp" alt="App drawer with search and an A to Z scroller" loading="lazy" width="270" height="585"><figcaption>App drawer</figcaption></figure></a></li>
+        <li><a href="shots/steps.webp"><figure style="margin:0"><img src="shots/steps.webp" alt="Steps page with a ring toward the daily goal, distance, active time, calories and an hourly chart" loading="lazy" width="270" height="585"><figcaption>Steps page</figcaption></figure></a></li>
+        <li><a href="shots/settings.webp"><figure style="margin:0"><img src="shots/settings.webp" alt="Home settings: icon shape, icon pack, app names, grid size, hidden apps and gestures" loading="lazy" width="270" height="585"><figcaption>Home settings</figcaption></figure></a></li>
+      </ul>
+      <p class="attach-note after">From GitHub Releases. Open the file on your phone, then press Home and pick Plain Launcher. <a href="#post-4">Full steps</a>.</p>
+
+      <p class="lead after-shots">Plain Launcher replaces MIUI’s home screen. No App Vault news feed, no “recommended” apps, no ads, and nothing to root or flash.</p>
+      <div class="split">
+        <div>
+          <h3>What goes</h3>
+          <ul class="ticks gone">
+            <li><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg><span>App Vault’s news feed and promoted cards</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg><span>Ads and “recommended” apps on the home screen and in folders</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg><span>Ads in the installer, cleaner and security scan, with Ad Shield (<a href="#post-3">post #3</a>)</span></li>
+          </ul>
+        </div>
+        <div>
+          <h3>What stays</h3>
+          <ul class="ticks">
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span>Your step history, from MIUI’s own step counter (<a href="#post-2">post #2</a>)</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span>Weather and your real next alarm, under the date</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span>Widgets, folders, icon packs and pages</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>The alarm under the date is your real alarm</h3>
+      <p>MIUI’s own home screen can show an alarm you never set: Xiaomi Calendar registers its midnight widget refresh as an “alarm clock”. Plain Launcher reads the Clock app’s own value instead.</p>
+      <div class="seg" role="group" aria-label="Clock app state">
+        <button type="button" aria-pressed="false" data-alarm="set">Alarm set in Clock</button>
+        <button type="button" aria-pressed="true" data-alarm="none">No alarm in Clock</button>
+      </div>
+      <div class="demo" aria-live="polite">
+        <div class="d1">Mon, 16 Nov <span style="display:inline-flex;align-items:center;gap:8px;font-size:.9em"><svg class="icon" aria-hidden="true"><use href="#i-cloud"/></svg>23°</span></div>
+        <div class="d2">Partly cloudy · H 30° L 22° · <span class="alarm"><svg class="icon" aria-hidden="true"><use href="#i-alarm"/></svg><span id="alarm-text">No alarm set</span></span></div>
+        <div class="cap" id="alarm-cap">Clock has no alarm, so nothing is shown as one. MIUI’s launcher said “Tue 00:00” here.</div>
+      </div>
+
+      <h3>One gesture each way</h3>
+      <div class="gestures" id="gestures">
+        <svg class="phone-svg" viewBox="40 30 140 230" role="img" aria-label="Phone outline with arrows: up for the app drawer, right for the Steps page, down for notifications, and a double tap to lock">
+          <rect x="60" y="40" width="100" height="210" rx="16" fill="#FBFBFC" stroke="currentColor" stroke-width="3"/>
+          <rect x="94" y="48" width="32" height="4" rx="2" fill="currentColor"/>
+          <path class="arrow" data-g="up" d="M134 232 V172 M122 184 L134 172 L146 184"/>
+          <path class="arrow" data-g="right" d="M72 140 H136 M124 128 L136 140 L124 152"/>
+          <path class="arrow" data-g="down" d="M88 64 V108 M76 96 L88 108 L100 96"/>
+          <path class="arrow" data-g="tap" d="M76 210 a12 12 0 1 1 24 0 a12 12 0 1 1 -24 0 M82 210 a6 6 0 1 1 12 0 a6 6 0 1 1 -12 0"/>
+        </svg>
+        <ul class="g-list">
+          <li data-g="up" tabindex="0"><b>Swipe up</b><span>App drawer, with search and an A–Z scroller</span></li>
+          <li data-g="right" tabindex="0"><b>Swipe right</b><span>Your Steps page, like App Vault, without the feed</span></li>
+          <li data-g="down" tabindex="0"><b>Swipe down</b><span>Notifications, from anywhere on the home screen</span></li>
+          <li data-g="tap" tabindex="0"><b>Double-tap</b><span>Locks the screen (optional, needs one accessibility switch)</span></li>
+        </ul>
+      </div>
+
+      <h3>Also in v0.2.0</h3>
+      <ul class="ticks">
+        <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span>Tap the weather for MIUI Weather, the alarm for Clock, the steps for your Steps page</span></li>
+        <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span>Icon shapes (circle, squircle, rounded square), icon packs, hidden apps, grid sizes</span></li>
+        <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span>Notification dots, a work-profile-aware app list, themed app icon on Android 13+</span></li>
+        <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span>No ads, no analytics, no account. The only network request is the weather (Open-Meteo).</span></li>
+      </ul>
+
+      <details>
+        <summary>Changelog <span class="s-meta">v0.2.0 · 16 Nov 2026</span><span class="s-act" aria-hidden="true"></span></summary>
+        <div class="fold">
+          <ul>
+            <li>First public release.</li>
+            <li>Steps page with MIUI’s step history, hourly and 7/30-day charts, daily goal.</li>
+            <li>Steps on non-Xiaomi phones: from Health Connect, or recorded from the phone’s step sensor.</li>
+            <li>Send walks to Health Connect as Walking workouts (works with MyNetDiary).</li>
+            <li>Real next alarm (ignores Xiaomi Calendar’s fake one), “No alarm set” when there is none.</li>
+            <li>Tap targets for Weather, Clock and Steps under the date.</li>
+            <li>Built for Android 16; Back, keyboard and edge-to-edge updated for Android 13 to 16.</li>
+            <li>New silver app icon with a themed version.</li>
+          </ul>
+        </div>
+      </details>
+      <details id="known-issues">
+        <summary>Known issues <span class="s-meta">read before installing</span><span class="s-act" aria-hidden="true"></span></summary>
+        <div class="fold">
+          <ul>
+            <li>Tested hands-on on one phone so far: a Redmi Note 7 (MIUI 12.5, Android 10). Other phones are supported by the code but not yet tested in hand.</li>
+            <li>Recents and the gesture-navigation animations stay MIUI’s. No third-party launcher can change those.</li>
+            <li>Some older MIUI versions don’t allow full-screen gestures with a third-party launcher. Use the 3-button bar there.</li>
+            <li>On phones without MIUI’s step store, the step history starts on the day you turn steps on.</li>
+            <li>Ad Shield’s Realme list is untested, and there is no Samsung list yet.</li>
+          </ul>
+        </div>
+      </details>
+    </div>
+  </article>
+
+  <!-- #2 -->
+  <article class="post" id="post-2" aria-labelledby="p2">
+    <aside class="author">
+      <img src="icon.svg" alt="" width="84" height="84">
+      <b>tanim913</b>
+      <span class="badge">OP · DEVELOPER</span>
+    </aside>
+    <div class="post-body">
+      <div class="post-top"><span>Post #2</span><a href="#post-2">Link</a></div>
+      <h2 id="p2">Your step history, without App Vault</h2>
+      <div class="with-shot">
+      <div>
+      <p>MIUI counts your steps all day in a system service, and App Vault used to show them. Plain Launcher reads the same data, so the numbers match what you saw before.</p>
+      <p class="g-chip"><svg aria-hidden="true"><use href="#g-right"/></svg><span><b>Swipe right</b> on the first home page to open it.</span></p>
+      <ul class="ticks">
+        <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span>Today against your goal, with distance, active time and calories (distance and calories are estimates)</span></li>
+        <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span>An hourly chart: tap or drag across the bars to see each hour</span></li>
+        <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span>7-day and 30-day history; tap a day to open it</span></li>
+        <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span>MIUI only keeps about a day of raw steps, so Plain Launcher saves its own history on the phone, every 30 minutes</span></li>
+      </ul>
+      </div>
+      <figure class="side-shot"><img src="shots/steps.webp" alt="Steps page: 3,122 steps against a 10,000 goal, 2.19 km, 35 minutes active, 124 kcal, and an hourly chart peaking around 22:00" loading="lazy" width="270" height="585"><figcaption>Steps page on a Redmi Note 7</figcaption></figure>
+      </div>
+      <h3>Count your walks in MyNetDiary and other apps</h3>
+      <p>Turn on <b>Send walks to Health Connect</b> in Home settings. Each walk of 5 minutes or more becomes a Walking workout in Health Connect, and apps like MyNetDiary add the calories from your weight. Nothing to type in by hand.</p>
+      <div class="callout"><p>Not on a Xiaomi phone? Steps come from Health Connect (Samsung Health, Fit, Android 14+), or Plain Launcher records them from the phone’s step sensor in the background.</p></div>
+    </div>
+  </article>
+
+  <!-- #3 -->
+  <article class="post" id="post-3" aria-labelledby="p3">
+    <aside class="author">
+      <img src="icon.svg" alt="" width="84" height="84">
+      <b>tanim913</b>
+      <span class="badge">OP · DEVELOPER</span>
+    </aside>
+    <div class="post-body">
+      <div class="post-top"><span>Post #3</span><a href="#post-3">Link</a></div>
+      <h2 id="p3">Ad Shield: switch off MIUI’s ad apps, and switch them back on</h2>
+      <p>A launcher can only clean up the home screen. MIUI’s other ads come from system apps such as <span class="mono">msa</span> and analytics. Ad Shield is a script you run from a computer over USB: it disables those apps for your user only. Nothing is uninstalled, core system apps are on a protected list it never touches, and <span class="mono">restore</span> undoes exactly what it did.</p>
+      <pre><span class="c"># on a Linux or macOS computer with adb, phone connected with USB debugging on</span>
+git clone https://github.com/tanim913/plain_launcher
+cd plain_launcher/adshield
+./adshield.sh apply          <span class="c"># dry run: shows what would change</span>
+./adshield.sh apply --yes    <span class="c"># do it</span>
+./adshield.sh restore --yes  <span class="c"># undo everything</span></pre>
+      <p>Then turn off the switches only MIUI’s settings can reach: Settings › Passwords &amp; security › Privacy › Ad services › Personalized ad recommendations, and “Receive recommendations” in Security, Themes, File Manager, Downloads and the installer.</p>
+    </div>
+  </article>
+
+  <!-- #4 -->
+  <article class="post" id="post-4" aria-labelledby="p4">
+    <aside class="author">
+      <img src="icon.svg" alt="" width="84" height="84">
+      <b>tanim913</b>
+      <span class="badge">OP · DEVELOPER</span>
+    </aside>
+    <div class="post-body">
+      <div class="post-top"><span>Post #4</span><a href="#post-4">Link</a></div>
+      <h2 id="p4">Install in four steps</h2>
+      <ol class="steps">
+        <li><div><b>Download the APK</b><p>Get <span class="mono">PlainLauncher-0.2.0.apk</span> from <a href="https://github.com/tanim913/plain_launcher/releases/latest">GitHub Releases</a> on your phone.</p></div></li>
+        <li><div><b>Open it and install</b><p>Tap the file in your browser or File Manager. If Android asks, allow installing from that app. MIUI may show a security scan; tap Install anyway.</p></div></li>
+        <li><div><b>Make it your home screen</b><p>Press Home, pick Plain Launcher and choose Always. Or use the banner on the home screen.</p></div></li>
+        <li><div><b>Optional: run Ad Shield</b><p>From a computer, to switch off the ads in MIUI’s other system apps (<a href="#post-3">post #3</a>).</p></div></li>
+      </ol>
+      <p style="margin-top:18px">Changed your mind? Settings › Apps › Default apps › Home screen › MIUI System Launcher brings MIUI’s home screen back.</p>
+      <details>
+        <summary>Questions <span class="s-meta">root, safety, updates</span><span class="s-act" aria-hidden="true"></span></summary>
+        <div class="fold">
+          <ul>
+            <li><b>Does it need root?</b> No. It is an ordinary app, set as your home screen.</li>
+            <li><b>Why not the Play Store?</b> Not yet. Releases are on GitHub, built from the public source.</li>
+            <li><b>Does it collect anything?</b> No analytics and no account. Steps and settings stay on the phone; the only request it makes is for the weather.</li>
+            <li><b>How do I update?</b> Download the newer APK from Releases and open it; it installs over the old one and keeps your layout.</li>
+          </ul>
+        </div>
+      </details>
+    </div>
+  </article>
+
+  <footer class="foot">
+    <span>Plain Launcher · free and open source under Apache-2.0 · not affiliated with Xiaomi</span>
+    <span><a href="https://github.com/tanim913/plain_launcher">Source code</a> · <a href="https://github.com/tanim913/plain_launcher/issues">Report a problem</a></span>
+  </footer>
+</main>
+
+<script>
+document.body.classList.remove("no-js");
+
+// Header demo: the alarm line follows the Clock app's state.
+(function () {
+  const text = document.getElementById("alarm-text"), cap = document.getElementById("alarm-cap");
+  const copy = {
+    set: ["Tue 06:00", "Clock has an alarm for 06:00, so that is what you see."],
+    none: ["No alarm set", "Clock has no alarm, so nothing is shown as one. MIUI’s launcher said “Tue 00:00” here."],
+  };
+  document.querySelectorAll("[data-alarm]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      document.querySelectorAll("[data-alarm]").forEach(function (o) { o.setAttribute("aria-pressed", String(o === b)); });
+      text.textContent = copy[b.dataset.alarm][0];
+      cap.textContent = copy[b.dataset.alarm][1];
+    });
+  });
+})();
+
+// Gesture diagram: draws in once when reached; focusing a gesture isolates its arrow.
+(function () {
+  const box = document.getElementById("gestures");
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver(function (es) {
+      if (es.some(function (e) { return e.isIntersecting; })) { box.classList.add("drawn"); io.disconnect(); }
+    }, { threshold: 0.4 });
+    io.observe(box);
+  } else box.classList.add("drawn");
+  function focus(g) {
+    if (g) box.dataset.focus = g; else delete box.dataset.focus;
+    box.querySelectorAll("[data-g]").forEach(function (el) { el.classList.toggle("on", el.dataset.g === g); });
+  }
+  box.querySelectorAll("li[data-g]").forEach(function (li) {
+    li.addEventListener("mouseenter", function () { focus(li.dataset.g); });
+    li.addEventListener("focus", function () { focus(li.dataset.g); });
+    li.addEventListener("mouseleave", function () { focus(null); });
+    li.addEventListener("blur", function () { focus(null); });
+  });
+})();
+</script>
+</body>
+</html>
