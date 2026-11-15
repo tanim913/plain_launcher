@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-16T12:00:00Z",
+  "title": "Design System: Plain Launcher",
+  "extensions": {
+    "colorMeta": {
+      "green": { "role": "primary", "displayName": "Download Green", "canonical": "#15703F", "tonalRamp": ["#082a17", "#0f5a32", "#15703f", "#2e8a57", "#5aa77c", "#93c8a8", "#c5e2d0", "#e3f0e8"] },
+      "green-deep": { "role": "primary", "displayName": "Pressed Green", "canonical": "#0F5A32", "tonalRamp": ["#06210f", "#0a3a20", "#0f5a32", "#22744a", "#4f9471", "#8bbaa0", "#c1dccd", "#e6f1ea"] },
+      "green-wash": { "role": "primary", "displayName": "Green Wash", "canonical": "#E3F0E8", "tonalRamp": ["#0f5a32", "#2e7a50", "#5a9a76", "#8bbaa0", "#bfdcc9", "#d3e8db", "#e3f0e8", "#f2f8f4"] },
+      "green-rule": { "role": "primary", "displayName": "Green Rule", "canonical": "#BFDCC9", "tonalRamp": ["#0f5a32", "#2e7a50", "#5a9a76", "#8bbaa0", "#a8cfb6", "#bfdcc9", "#d6eadd", "#eef6f1"] },
+      "graphite": { "role": "secondary", "displayName": "Graphite", "canonical": "#1B1D20", "tonalRamp": ["#0e0f11", "#1b1d20", "#2a2d31", "#3a3d42", "#4a4f56", "#8e949b", "#b9bec4", "#e7e8ea"] },
+      "graphite-2": { "role": "secondary", "displayName": "Graphite Lift", "canonical": "#2A2D31", "tonalRamp": ["#0e0f11", "#1b1d20", "#2a2d31", "#3a3d42", "#4a4f56", "#8e949b", "#b9bec4", "#e7e8ea"] },
+      "silver": { "role": "secondary", "displayName": "Icon Silver", "canonical": "#B9BEC4", "tonalRamp": ["#1b1d20", "#3a3d42", "#5f646b", "#8e949b", "#a6abb1", "#b9bec4", "#cdd0d4", "#e7e8ea"] },
+      "graphite-dim": { "role": "secondary", "displayName": "Graphite Dim", "canonical": "#8E949B", "tonalRamp": ["#1b1d20", "#3a3d42", "#5f646b", "#767c83", "#8e949b", "#a6abb1", "#c9cdd2", "#e7e8ea"] },
+      "ground": { "role": "neutral", "displayName": "Forum Ground", "canonical": "#E7E8EA", "tonalRamp": ["#1b1d20", "#4a4f56", "#8e949b", "#b9bec4", "#cdd0d4", "#e7e8ea", "#f2f3f5", "#fbfbfc"] },
+      "paper": { "role": "neutral", "displayName": "Post Paper", "canonical": "#FBFBFC", "tonalRamp": ["#1b1d20", "#4a4f56", "#8e949b", "#cdd0d4", "#e7e8ea", "#f2f3f5", "#fbfbfc", "#ffffff"] },
+      "paper-sunk": { "role": "neutral", "displayName": "Sunk Paper", "canonical": "#F2F3F5", "tonalRamp": ["#1b1d20", "#4a4f56", "#8e949b", "#cdd0d4", "#e7e8ea", "#f2f3f5", "#fbfbfc", "#ffffff"] },
+      "paper-bright": { "role": "neutral", "displayName": "Bright Paper", "canonical": "#FFFFFF", "tonalRamp": ["#1b1d20", "#4a4f56", "#8e949b", "#cdd0d4", "#e7e8ea", "#f2f3f5", "#fbfbfc", "#ffffff"] },
+      "rule": { "role": "neutral", "displayName": "Rule", "canonical": "#CDD0D4", "tonalRamp": ["#1b1d20", "#3a3d42", "#4a4f56", "#8e949b", "#b9bec4", "#cdd0d4", "#e4e6e9", "#f2f3f5"] },
+      "rule-soft": { "role": "neutral", "displayName": "Soft Rule", "canonical": "#E4E6E9", "tonalRamp": ["#1b1d20", "#3a3d42", "#4a4f56", "#8e949b", "#b9bec4", "#cdd0d4", "#e4e6e9", "#f2f3f5"] },
+      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "#1B1D20", "tonalRamp": ["#0e0f11", "#1b1d20", "#2a2d31", "#3a3d42", "#4a4f56", "#8e949b", "#b9bec4", "#e7e8ea"] },
+      "muted": { "role": "neutral", "displayName": "Muted", "canonical": "#4A4F56", "tonalRamp": ["#1b1d20", "#2a2d31", "#3a3d42", "#4a4f56", "#5f646b", "#8e949b", "#b9bec4", "#e7e8ea"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "The hook in post #1 only; second line in green." },
+      "headline": { "displayName": "Headline", "purpose": "The thread title, with a muted bracketed prefix." },
+      "title": { "displayName": "Title", "purpose": "Heading of each post after #1." },
+      "title-sm": { "displayName": "Title small", "purpose": "Section headings inside a post." },
+      "numeral": { "displayName": "Numeral", "purpose": "Install-band step numbers, in green." },
+      "body": { "displayName": "Body", "purpose": "Post prose, max 68ch; 1rem under 720px." },
+      "body-lead": { "displayName": "Lead", "purpose": "Opening paragraph of a post section." },
+      "label": { "displayName": "Label", "purpose": "Tags, jump links, spoiler actions, attachment label." },
+      "label-badge": { "displayName": "Badge", "purpose": "The uppercase OP badge in the author column." },
+      "meta": { "displayName": "Meta", "purpose": "Post number line, thread meta, file details, captions." },
+      "mono": { "displayName": "Mono", "purpose": "File names, package names and commands only." }
+    },
+    "shadows": [
+      { "name": "post-lift", "value": "0 1px 2px rgba(27, 29, 32, .05), 0 6px 18px -12px rgba(27, 29, 32, .25)", "purpose": "Every post card, and nothing else." }
+    ],
+    "focus": [
+      { "name": "focus-ring", "value": "outline: 2px solid #15703F; outline-offset: 3px; border-radius: 2px", "purpose": "Every interactive element via :focus-visible." }
+    ],
+    "motion": [
+      { "name": "ease-out", "value": "cubic-bezier(.16, 1, .3, 1)", "purpose": "The single easing for all transitions." },
+      { "name": "duration-state", "value": "0.2s", "purpose": "Button background and press nudge." },
+      { "name": "duration-isolate", "value": "0.25s", "purpose": "Dimming other screenshots, gesture items and arrows." },
+      { "name": "duration-unfold", "value": "0.45s", "purpose": "Spoiler height unfold (::details-content), when supported." },
+      { "name": "duration-draw", "value": "0.9s", "purpose": "Gesture arrows drawing in once on scroll, staggered 0.15s." },
+      { "name": "reduced-motion", "value": "prefers-reduced-motion: reduce", "purpose": "Disables smooth scroll, arrow drawing and spoiler animation." }
+    ],
+    "breakpoints": [
+      { "name": "wide", "value": "981px" },
+      { "name": "tablet", "value": "980px" },
+      { "name": "mobile", "value": "720px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Thread Bar",
+      "kind": "nav",
+      "refersTo": "thread-bar",
+      "description": "Sticky graphite forum bar: brand, breadcrumb, post jump links ending in a green Download link.",
+      "html": "<header class=\"ds-bar\"><a class=\"ds-brand\" href=\"#\"><span class=\"ds-brand-tile\"></span>Plain Launcher</a><span class=\"ds-path\"><a href=\"#\">tanim913 / plain_launcher</a> &rsaquo; release thread</span><nav class=\"ds-jumps\"><a href=\"#\">#1 Launcher</a><a href=\"#\">#2 Steps</a><a href=\"#\">Install</a><a class=\"ds-dl\" href=\"#\">Download</a></nav></header>",
+      "css": ".ds-bar { display: flex; align-items: center; gap: 28px; height: 60px; padding: 0 24px; background: var(--graphite, #1B1D20); color: var(--silver, #B9BEC4); border-bottom: 1px solid #000; font-family: Archivo, system-ui, sans-serif; } .ds-brand { display: flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; font-weight: 750; font-stretch: 108%; letter-spacing: -.01em; white-space: nowrap; } .ds-brand-tile { width: 30px; height: 30px; border-radius: 8px; background: linear-gradient(#2A2D31, #000); outline: 1px solid #3A3D42; } .ds-path { font-family: system-ui, sans-serif; font-size: .85rem; color: #8E949B; white-space: nowrap; } .ds-path a { color: #C9CDD2; text-decoration: none; } .ds-path a:hover { color: #fff; } .ds-jumps { margin-left: auto; display: flex; gap: 4px; } .ds-jumps a { color: var(--silver, #B9BEC4); text-decoration: none; font-size: .9rem; font-weight: 550; padding: 7px 11px; border-radius: 4px; white-space: nowrap; } .ds-jumps a:hover { background: #2A2D31; color: #fff; } .ds-jumps a:focus-visible, .ds-brand:focus-visible { outline: 2px solid #15703F; outline-offset: 3px; } .ds-jumps .ds-dl { background: #15703F; color: #fff; font-weight: 700; } .ds-jumps .ds-dl:hover { background: #0F5A32; }"
+    },
+    {
+      "name": "Tag Chips",
+      "kind": "chip",
+      "refersTo": "tag",
+      "description": "Thread tags under the title; the version tag inverts to graphite.",
+      "html": "<ul class=\"ds-tags\"><li class=\"ds-v\">v0.2.0</li><li>Xiaomi &middot; Redmi &middot; POCO</li><li>Tested: Redmi Note 7</li><li>No root</li></ul>",
+      "css": ".ds-tags { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; } .ds-tags li { font-family: Archivo, system-ui, sans-serif; font-size: .82rem; font-weight: 600; color: #1B1D20; background: #FBFBFC; border: 1px solid #CDD0D4; border-radius: 3px; padding: 3px 9px; } .ds-tags li.ds-v { background: #1B1D20; color: #fff; border-color: #1B1D20; }"
+    },
+    {
+      "name": "Post with Author Column",
+      "kind": "card",
+      "refersTo": "post",
+      "description": "The page's unit: paper post with a sunk author column, OP badge, post-number line and body.",
+      "html": "<article class=\"ds-post\"><aside class=\"ds-author\"><span class=\"ds-avatar\"></span><b>tanim913</b><span class=\"ds-badge\">OP &middot; DEVELOPER</span></aside><div class=\"ds-body\"><div class=\"ds-top\"><span>Post #2</span><a href=\"#\">Link</a></div><h2>Your step history, without App Vault</h2><p>MIUI counts your steps all day in a system service. Plain Launcher reads the same data, so the numbers match what you saw before.</p></div></article>",
+      "css": ".ds-post { display: grid; grid-template-columns: 196px minmax(0, 1fr); background: #FBFBFC; border: 1px solid #CDD0D4; border-radius: 4px; box-shadow: 0 1px 2px rgba(27, 29, 32, .05), 0 6px 18px -12px rgba(27, 29, 32, .25); color: #1B1D20; font-family: system-ui, sans-serif; font-size: 1.0625rem; line-height: 1.6; } .ds-author { background: #F2F3F5; border-right: 1px solid #CDD0D4; padding: 24px 20px; font-size: .88rem; color: #4A4F56; } .ds-author b { display: block; color: #1B1D20; font-size: 1rem; } .ds-avatar { display: block; width: 84px; height: 84px; border-radius: 20px; margin-bottom: 12px; background: linear-gradient(#2A2D31, #000); } .ds-badge { display: inline-block; margin-top: 6px; font-family: Archivo, system-ui, sans-serif; font-size: .72rem; font-weight: 750; letter-spacing: .04em; background: #1B1D20; color: #fff; padding: 2px 7px; border-radius: 3px; } .ds-body { padding: 16px 40px 34px; min-width: 0; } .ds-top { display: flex; justify-content: space-between; font-size: .82rem; color: #4A4F56; padding-bottom: 10px; margin-bottom: 16px; border-bottom: 1px solid #CDD0D4; } .ds-top a { color: #4A4F56; text-decoration: none; font-weight: 650; } .ds-top a:hover { color: #1B1D20; } .ds-top a:focus-visible { outline: 2px solid #15703F; outline-offset: 3px; } .ds-body h2 { margin: 0 0 14px; font-family: Archivo, system-ui, sans-serif; font-weight: 800; font-size: 1.9rem; line-height: 1.15; letter-spacing: -.02em; } .ds-body p { margin: 0; max-width: 68ch; }"
+    },
+    {
+      "name": "Attachment Tray with Download",
+      "kind": "button",
+      "refersTo": "button-download",
+      "description": "The primary action as a forum file attachment: green-bordered tray, APK glyph, mono file name, green Download button.",
+      "html": "<div class=\"ds-attach\"><svg class=\"ds-glyph\" viewBox=\"0 0 46 54\" aria-hidden=\"true\"><path d=\"M5 2h25l13 13v35a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\"/><path d=\"M30 2v13h13\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\"/><text x=\"23\" y=\"41\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"800\" fill=\"currentColor\" font-family=\"Archivo, sans-serif\">APK</text></svg><div class=\"ds-file\"><div class=\"ds-name\">PlainLauncher-0.2.0.apk</div><div class=\"ds-sub\">471 KB &middot; Android 8.0 or newer &middot; free, no account</div></div><a class=\"ds-btn\" href=\"#\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 4v12M6.5 10.5L12 16l5.5-5.5M5 20h14\"/></svg>Download</a></div>",
+      "css": ".ds-attach { border: 1.5px solid #15703F; border-radius: 4px; background: #fff; display: flex; align-items: center; gap: 18px; padding: 16px 18px; max-width: 720px; font-family: system-ui, sans-serif; color: #1B1D20; } .ds-glyph { width: 46px; height: 54px; flex: none; color: #15703F; } .ds-file { min-width: 0; } .ds-name { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-weight: 700; font-size: 1.02rem; overflow-wrap: anywhere; } .ds-sub { font-size: .86rem; color: #4A4F56; } .ds-btn { margin-left: auto; display: inline-flex; align-items: center; gap: 10px; flex: none; background: #15703F; color: #fff; text-decoration: none; border-radius: 4px; font-family: Archivo, system-ui, sans-serif; font-weight: 750; font-size: 1.15rem; padding: 13px 22px; transition: background-color .2s cubic-bezier(.16, 1, .3, 1), transform .2s cubic-bezier(.16, 1, .3, 1); } .ds-btn svg { width: 1.15em; height: 1.15em; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; } .ds-btn:hover { background: #0F5A32; } .ds-btn:active { transform: translateY(1px); } .ds-btn:focus-visible { outline: 2px solid #15703F; outline-offset: 3px; }"
+    },
+    {
+      "name": "Tick List",
+      "kind": "custom",
+      "refersTo": "tick-list",
+      "description": "Rule-divided rows with green checks for what stays, muted crosses for what goes.",
+      "html": "<ul class=\"ds-ticks\"><li><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4.5 12.5l5 5 10-11\"/></svg><span>Your step history, from MIUI&rsquo;s own step counter</span></li><li><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4.5 12.5l5 5 10-11\"/></svg><span>Weather and your real next alarm, under the date</span></li></ul><ul class=\"ds-ticks ds-gone\"><li><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M6 6l12 12M18 6L6 18\"/></svg><span>App Vault&rsquo;s news feed and promoted cards</span></li></ul>",
+      "css": ".ds-ticks { list-style: none; padding: 0; margin: 0 0 6px; max-width: 68ch; font-family: system-ui, sans-serif; font-size: 1.0625rem; line-height: 1.6; color: #1B1D20; } .ds-ticks li { display: flex; gap: 11px; padding: 7px 0; border-bottom: 1px solid #E4E6E9; } .ds-ticks li:last-child { border-bottom: 0; } .ds-ticks svg { width: 1.15em; height: 1.15em; flex: none; margin-top: .25em; fill: none; stroke: #15703F; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; } .ds-gone svg { stroke: #4A4F56; }"
+    },
+    {
+      "name": "Install Bands",
+      "kind": "custom",
+      "refersTo": "install-bands",
+      "description": "Numbered full-width bands between rules with large green Archivo numerals.",
+      "html": "<ol class=\"ds-steps\"><li><div><b>Download the APK</b><p>Get it from GitHub Releases on your phone.</p></div></li><li><div><b>Open it and install</b><p>Tap the file in your browser or File Manager.</p></div></li><li><div><b>Make it your home screen</b><p>Press Home, pick Plain Launcher and choose Always.</p></div></li></ol>",
+      "css": ".ds-steps { list-style: none; counter-reset: s; margin: 0; padding: 0; max-width: 820px; font-family: system-ui, sans-serif; color: #1B1D20; line-height: 1.6; } .ds-steps li { counter-increment: s; display: grid; grid-template-columns: 52px 1fr; gap: 16px; padding: 18px 0; border-top: 1px solid #CDD0D4; } .ds-steps li:last-child { border-bottom: 1px solid #CDD0D4; } .ds-steps li::before { content: counter(s); font-family: Archivo, system-ui, sans-serif; font-weight: 880; font-stretch: 112%; font-size: 2.6rem; line-height: .9; color: #15703F; font-variant-numeric: tabular-nums; } .ds-steps b { display: block; font-size: 1.08rem; margin-bottom: 2px; } .ds-steps p { margin: 0; color: #4A4F56; }"
+    },
+    {
+      "name": "Fold-Flat Spoiler",
+      "kind": "custom",
+      "refersTo": "spoiler",
+      "description": "Changelog / known issues / questions folded closed, with a green Show/Hide action; unfolds in place.",
+      "html": "<details class=\"ds-spoiler\"><summary>Known issues <span class=\"ds-meta\">read before installing</span><span class=\"ds-act\" aria-hidden=\"true\"></span></summary><div class=\"ds-fold\"><ul><li>Tested hands-on on one phone so far: a Redmi Note 7.</li><li>Recents and gesture-navigation animations stay MIUI&rsquo;s.</li></ul></div></details>",
+      "css": ".ds-spoiler { border: 1px solid #CDD0D4; border-radius: 4px; background: #fff; max-width: 820px; font-family: system-ui, sans-serif; color: #1B1D20; line-height: 1.6; } .ds-spoiler summary { list-style: none; cursor: pointer; padding: 13px 16px; font-weight: 700; display: flex; align-items: center; gap: 12px; } .ds-spoiler summary::-webkit-details-marker { display: none; } .ds-spoiler summary:hover { background: #F2F3F5; } .ds-spoiler summary:focus-visible { outline: 2px solid #15703F; outline-offset: 3px; } .ds-meta { font-weight: 500; color: #4A4F56; font-size: .88rem; } .ds-act { margin-left: auto; font-family: Archivo, system-ui, sans-serif; font-size: .78rem; font-weight: 750; letter-spacing: .03em; color: #15703F; border: 1px solid currentColor; border-radius: 3px; padding: 2px 8px; } .ds-act::after { content: \"Show\"; } .ds-spoiler[open] .ds-act::after { content: \"Hide\"; } .ds-fold { padding: 4px 18px 16px; border-top: 1px solid #CDD0D4; } .ds-fold ul { margin: 10px 0 0; padding-left: 20px; } .ds-fold li { margin: 6px 0; }"
+    },
+    {
+      "name": "Segmented Control and Header Demo",
+      "kind": "custom",
+      "refersTo": "header-demo",
+      "description": "State comparison: paper segmented options switch a graphite panel showing the phone's date, weather and alarm line.",
+      "html": "<div class=\"ds-seg\" role=\"group\"><button type=\"button\" aria-pressed=\"false\">Alarm set in Clock</button><button type=\"button\" aria-pressed=\"true\">No alarm in Clock</button></div><div class=\"ds-demo\"><div class=\"ds-d1\">Mon, 16 Nov &nbsp;23&deg;</div><div class=\"ds-d2\">Partly cloudy &middot; H 30&deg; L 22&deg; &middot; No alarm set</div><div class=\"ds-cap\">Clock has no alarm, so nothing is shown as one.</div></div>",
+      "css": ".ds-seg { display: inline-flex; border: 1px solid #CDD0D4; border-radius: 4px; overflow: hidden; margin: 0 0 18px; } .ds-seg button { font-family: system-ui, sans-serif; font-size: .88rem; font-weight: 650; padding: 7px 13px; border: 0; cursor: pointer; background: #FBFBFC; color: #4A4F56; } .ds-seg button + button { border-left: 1px solid #CDD0D4; } .ds-seg button:hover { color: #1B1D20; } .ds-seg button:focus-visible { outline: 2px solid #15703F; outline-offset: -2px; } .ds-seg button[aria-pressed=\"true\"] { background: #1B1D20; color: #fff; } .ds-demo { max-width: 720px; background: #1B1D20; color: #fff; border-radius: 6px; padding: 26px 28px 22px; font-family: system-ui, sans-serif; } .ds-d1 { font-size: 1.9rem; font-weight: 500; letter-spacing: -.01em; } .ds-d2 { font-size: 1.05rem; color: #D7DADE; margin-top: 4px; } .ds-cap { margin-top: 16px; padding-top: 12px; border-top: 1px solid #3A3D42; font-size: .86rem; color: #AEB3B9; }"
+    },
+    {
+      "name": "Callout",
+      "kind": "card",
+      "refersTo": "callout",
+      "description": "The single tinted aside: green wash with a green rule.",
+      "html": "<div class=\"ds-callout\"><p>Not on a Xiaomi phone? Steps come from Health Connect, or Plain Launcher records them from the phone&rsquo;s step sensor.</p></div>",
+      "css": ".ds-callout { background: #E3F0E8; border: 1px solid #BFDCC9; border-radius: 4px; padding: 12px 16px; max-width: 760px; font-family: system-ui, sans-serif; color: #1B1D20; line-height: 1.6; } .ds-callout p { margin: 0; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Release Thread",
+    "overview": "The site is the first post of an Android release thread, the document Xiaomi and Redmi owners already read before they install anything. The visitor lands on grey forum ground, under a graphite thread bar, and reads a thread title with bracketed device tags, then post #1 by the developer: author column on the left, the hook, the attached APK, the attached screenshots. Further posts (#2 Steps, #3 Ad Shield, #4 Install) follow the same anatomy. Changelog, known issues and questions are folded spoilers inside the posts, exactly where a forum puts them.\n\nThe system is a two-ink print on paper. Graphite carries the chrome and anything machine-made (thread bar, OP badge, version tag, code, the phone header demo, screenshot bezels); a single dark green carries everything that means \"get it\", \"this stays\" or \"act here\" (Download, ticks, links, step numerals, swipe arrows, focus). Everything else is greys taken from the app icon's brushed silver. Density is forum density: 1px rules separate everything, posts are generous in padding but tight in rhythm, and prose holds to a 68ch measure.\n\nThe page refuses the app-landing arrangement: no gradient hero, no floating phone mockup, no row of three feature cards. Proof arrives as attachments, never as staged marketing.",
+    "keyCharacteristics": [
+      "Forum anatomy: thread bar, breadcrumb, title with tag chips, numbered posts with an author column.",
+      "Two inks only: graphite and one green, on grey ground and near-white paper.",
+      "1px rules for structure; one soft shadow, on posts only.",
+      "Archivo (variable, condensed-to-wide) for thread structure; system sans for post prose; mono only for files and commands.",
+      "Real device screenshots shown as small attached thumbnails with a graphite bezel.",
+      "Motion only to unfold in place: spoilers open, swipe arrows draw, focus isolates."
+    ],
+    "rules": [
+      { "name": "The One Green Rule", "body": "Green is the only hue on the page, and it always means get it, keep it, or act. Never use it for decoration, and never add a second accent.", "section": "colors" },
+      { "name": "The Graphite Is Chrome Rule", "body": "Graphite surfaces are for the forum chrome and for machine output (code, the phone header, screenshot bezels). Prose never sits in a graphite box.", "section": "colors" },
+      { "name": "The Three Voices Rule", "body": "Archivo for thread structure (brand, title, headings, buttons, tags, badges, numerals); system sans for anything a person wrote in the post; mono only for file names, package names and commands.", "section": "typography" },
+      { "name": "The Wide Weight Rule", "body": "Weight 880 at 112% width is reserved for the hook and the install numerals. Nothing else gets the full stretch.", "section": "typography" },
+      { "name": "The One Lift Rule", "body": "Only posts lift off the ground. Everything inside a post is flat and separated by rules, not shadows.", "section": "elevation" },
+      { "name": "The Unfold In Place Rule", "body": "Motion only reveals what is already on the page: spoilers open where they sit, arrows draw on their own phone, focus dims the rest. Nothing slides in, floats or loops.", "section": "components" }
+    ],
+    "dos": [
+      "Do put every block of content inside a numbered post with an author column; only the thread head and footer sit on the ground.",
+      "Do keep green for downloads, ticks, links, numerals, gesture arrows and focus, darkening to green-deep on hover.",
+      "Do separate content with 1px rules (rule between structures, rule-soft between list items).",
+      "Do show the product only through real device screenshots, as attachment thumbnails with a 10px radius and a 4px graphite bezel outline.",
+      "Do use Archivo for structure, system sans for prose, and mono only for file names, package names and commands.",
+      "Do keep corners at 3 to 6px for interface pieces; reserve larger radii for screenshots and the app icon.",
+      "Do keep a visible 2px green focus ring with 3px offset on every interactive element."
+    ],
+    "donts": [
+      "Don't build the app-landing template: no gradient hero, no floating phone mockup, no row of three feature cards.",
+      "Don't add a second accent hue, gradient surfaces, or tints beyond the single green-wash callout; the app icon's own graphite-to-black gradient stays inside the icon.",
+      "Don't put shadows on anything inside a post; the post lift is the only shadow.",
+      "Don't put kicker or eyebrow labels above headings; forum structure (post numbers, tags, badges) already locates the reader.",
+      "Don't use emoji or icon fonts; icons are inline 2px-stroke SVG in currentColor.",
+      "Don't animate for decoration; motion only unfolds, draws or isolates in place, and stops under reduced motion."
+    ]
+  }
+}
